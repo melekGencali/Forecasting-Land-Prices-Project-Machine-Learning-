@@ -1,0 +1,59 @@
+# -*- coding: utf-8 -*-
+import scrapy
+import self as self
+
+from scrapyProje.items import ScrapyprojeItem
+
+
+class ProjeSpider(scrapy.Spider):
+    name = 'proje'
+    allowed_domains = ['zingat.com']
+    start_urls = [
+
+                 'https://www.zingat.com/kiralik-arsa',
+                  'https://www.zingat.com/kiralik-arsa?page=2',
+                  'https://www.zingat.com/kiralik-arsa?page=3',
+                  'https://www.zingat.com/kiralik-arsa?page=4',
+                  'https://www.zingat.com/kiralik-arsa?page=5',
+                  'https://www.zingat.com/kiralik-arsa?page=6',
+                  'https://www.zingat.com/kiralik-arsa?page=7',
+                  'https://www.zingat.com/kiralik-arsa?page=8',
+                  'https://www.zingat.com/kiralik-arsa?page=9',
+                  'https://www.zingat.com/kiralik-arsa?page=10'
+
+
+
+
+                  ]
+
+    def parse(self, response):
+        print('Page URL: ' + response.url)
+
+        for url in response.css('li.zl-card >a::attr(href)').getall():
+            print('requesting: ' + url)
+
+            yield scrapy.Request('https://www.zingat.com'+url, callback=self.parseData)
+
+
+    def parseData(self, response):
+
+
+       item = ScrapyprojeItem()
+       features = {}
+
+
+       item["fiyat"]=response.css("div.listing-price::text").extract()[0].strip()
+       item["adres"]=response.css("h2::text").extract()[0].strip()
+
+       for feature in response.css('li.col-md-6'):
+         # for feature in response.css('li.col-md-6'):
+         key = feature.css('strong::text').get()
+         value = feature.css('span::text').get()
+         # field adı : içeriği yan yana yazılması için aşağıdaki eşitleme yazılır.
+         features[key.strip()] = value.strip()
+         if features is not None:
+             item['features'] = features
+       yield item
+
+
+

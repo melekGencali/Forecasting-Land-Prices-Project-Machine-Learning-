@@ -1,0 +1,54 @@
+# -*- coding: utf-8 -*-
+import scrapy
+import self as self
+
+from scrapyProje.items import ScrapyprojeItem
+
+
+class ProjeSpider(scrapy.Spider):
+    name = 'proje'
+    allowed_domains = ['n11.com']
+    start_urls = [
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=2',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=3',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=4',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=5',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=6',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=7',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=8',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=9',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=10',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=11',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=12',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=13',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=14',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=15',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=16',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=17',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=18',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=19',
+                 'https://www.n11.com/telefon-ve-aksesuarlari/sim-kart-hat-paketler?pg=20'
+
+
+                  ]
+
+    def parse(self, response):
+        print('Page URL: ' + response.url)
+
+        for url in response.css('div.pro>a::attr(href)').getall():
+            print('requesting: ' + url)
+
+            yield scrapy.Request(url, callback=self.parseData)
+
+    def parseData (self, response):
+        item = ScrapyprojeItem()
+        item['baslik'] = response.css('h1::text').extract()[0].strip()
+        item['fiyat'] = response.css('ins::text').get()
+        item['yorum'] = response.css('h5::text').getall()
+        item['yorumYildizi'] = response.css('div.ratingCont>span').get()
+        item['yildiz'] = response.css('div.avarageText::text').get()
+
+
+        yield item
+

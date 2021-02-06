@@ -1,0 +1,98 @@
+# -*- coding: utf-8 -*-
+import scrapy
+
+from scrapyProje.items import ScrapyprojeItem
+
+
+class ProjeSpider(scrapy.Spider):
+    name = 'proje'
+    allowed_domains = ['hurriyetemlak.com']
+    start_urls = [
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1051',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1052',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1053',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1054',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1055',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1056',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1057',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1058',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1059',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1060',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1061',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1062',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1063',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1064',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1065',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1066',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1067',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1068',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1069',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1070',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1071',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1072',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1073',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1074',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1075',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1076',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1077',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1078',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1079',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1080',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1081',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1082',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1083',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1084',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1085',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1086',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1087',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1088',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1089',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1090',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1091',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1092',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1093',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1094',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1095',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1096',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1097',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1098',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1099',
+                 'https://www.hurriyetemlak.com/satilik/arsa?page=1100'
+
+
+                  ]
+
+    def parse(self, response):
+        print('Page URL: ' + response.url)
+
+        for url in response.css('div.list-view-img-wrapper>a::attr(href)').getall():
+
+            print('requesting: ' + url)
+
+            yield scrapy.Request('https://www.hurriyetemlak.com'+url, callback=self.parseData)
+
+
+    def parseData(self, response):
+
+
+       item = ScrapyprojeItem()
+       features = {}
+
+
+       item["fiyat"]=response.css('p::text').extract()[0].strip()
+       item["il"]=response.css('ul.short-info-list>li::text').extract()[0].strip()
+       item["ilce"]=response.css('ul.short-info-list>li::text').extract()[1].strip()
+       item["mahalle"]=response.css('ul.short-info-list>li::text').extract()[2].strip()
+
+       for feature in response.css('ul.adv-info-list>li'):
+         # for feature in response.css('li.col-md-6'):
+         key = feature.css('span.txt::text').extract()[0]
+         value = feature.css('span::text').extract()[1]
+         # field adı : içeriği yan yana yazılması için aşağıdaki eşitleme yazılır.
+         features[key.strip()] = value.strip()
+         if features is not None:
+             item['features'] = features
+       yield item
+
+
+
