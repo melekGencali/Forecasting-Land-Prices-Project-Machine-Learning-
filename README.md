@@ -125,7 +125,7 @@ df.describe().T ile çıkan tabloda mean ile %50 arasındaki fark ne kadar fazla
 
 ```df["FIYAT"] = np.log(df["FIYAT"])```
 
-[dağılım2](https://cdn-images-1.medium.com/max/800/1*0MpsMW2CiiSuIskAHwwqYQ.png)
+![dağılım2](https://cdn-images-1.medium.com/max/800/1*0MpsMW2CiiSuIskAHwwqYQ.png)
 
 Log dönüşümü uygulandıktan sonra tablomuzu kontrol edelim.
 
@@ -148,4 +148,5 @@ Log dönüşümü uygulandıktan sonra tablomuzu kontrol edelim.
 ![pickle](https://cdn-images-1.medium.com/max/800/1*yUJaIZ3RfWV_j8C2yYvViA.png)
 
 Sonuç olarak, web sitesinden çekilen veri seti çok eksik ve artık değer barındırdığından güzel bir sonuç elde edemedik. Ancak Web Scraping ve veri biliminde kullanılan algoritmalar ile genel bir çalışma yaptık. Umarım beğenirsiniz. Bir sonraki projede görüşmek üzere !!!
+
 Proje kodlarına buradan erişebilirsiniz : https://github.com/melekGencali/Forecasting-Land-Prices-Project-Machine-Learning-/tree/master
