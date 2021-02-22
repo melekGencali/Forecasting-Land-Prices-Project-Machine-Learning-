@@ -4,7 +4,7 @@
 ![arsa](https://cdn-images-1.medium.com/max/600/1*xnq7QjVHQELbWcpEPn_IaQ.jpeg)
 
 Web Scraping -Regression İle Satılık Arsa Fiyatı Tahminlemesi
-Merhabalar, bu proje Scrapy, Data Proprocessing ve ML algoritmaları hakkında bilgi vermek amacıyla yapılmıştır. Bu sebeple tahmin çok iyi bir sonuç değilir. ilk olarak Scrapy ile Web Scraping işlemi yapılmıştır.  Bu linkten Scrapy hakkında bilgi edinebilirsiniz. Sonrasında tahminleme işlemine geçilmiştir. Projemizi adım adım anlatacağız. Proje kodlarına sayfa sonunda verilen linkten ulaşabilirsiniz. 
+Merhabalar, bu proje Scrapy, Data Proprocessing ve ML algoritmaları hakkında bilgi vermek amacıyla yapılmıştır. Bu sebeple tahmin çok iyi bir sonuç değilir. ilk olarak Scrapy ile Web Scraping işlemi yapılmıştır. Sonrasında tahminleme işlemine geçilmiştir. Projemizi adım adım anlatacağız. Proje kodlarına sayfa sonunda verilen linkten ulaşabilirsiniz. 
 
 
 ---
